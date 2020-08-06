@@ -36,4 +36,5 @@
 *.depend
 *.cbp
 *.layout
+version.h
 
