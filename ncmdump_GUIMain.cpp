@@ -12,9 +12,6 @@
 #include <wx/msgdlg.h>
 
 //(*InternalHeaders(ncmdump_GUIFrame)
-#include <wx/bitmap.h>
-#include <wx/icon.h>
-#include <wx/image.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
@@ -79,11 +76,7 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
 
     Create(parent, wxID_ANY, _("ncmdump GUI"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
     SetClientSize(wxSize(800,600));
-    {
-    	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("C:\\3rd_runtime_lib\\wxWidgets-3.0.4\\include\\wx\\msw\\child.ico"))));
-    	SetIcon(FrameIcon);
-    }
+    SetIcon(wxIcon(wxT("aaaa")));
     Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(368,328), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
     BoxSizer3 = new wxBoxSizer(wxVERTICAL);
