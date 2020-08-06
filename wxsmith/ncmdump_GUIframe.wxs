@@ -3,8 +3,8 @@
 	<object class="wxFrame" name="ncmdump_GUIFrame">
 		<title>ncmdump GUI</title>
 		<centered>1</centered>
-		<icon>C:\3rd_runtime_lib\wxWidgets-3.0.4\include\wx\msw\child.ico</icon>
 		<size>800,600</size>
+		<extra_code>SetIcon(wxIcon(wxT(&quot;aaaa&quot;)));      </extra_code>
 		<id_arg>0</id_arg>
 		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 			<pos>368,328</pos>
@@ -91,8 +91,8 @@
 						</object>
 					</object>
 					<flag>wxALL|wxEXPAND</flag>
-					<border>5</border>
-					<option>7</option>
+					<border>10</border>
+					<option>1</option>
 				</object>
 			</object>
 		</object>

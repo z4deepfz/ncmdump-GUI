@@ -103,7 +103,7 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
     gauge = new wxGauge(Panel1, ID_GAUGE1, 100, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_GAUGE1"));
     BoxSizer4->Add(gauge, 5, wxLEFT|wxEXPAND, 5);
     BoxSizer3->Add(BoxSizer4, 0, wxALL|wxEXPAND, 5);
-    BoxSizer1->Add(BoxSizer3, 7, wxALL|wxEXPAND, 5);
+    BoxSizer1->Add(BoxSizer3, 1, wxALL|wxEXPAND, 10);
     Panel1->SetSizer(BoxSizer1);
     BoxSizer1->Fit(Panel1);
     BoxSizer1->SetSizeHints(Panel1);
