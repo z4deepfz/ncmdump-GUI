@@ -1,4 +1,4 @@
-aaaa ICON "wx/msw/std.ico"
+aaaa ICON "icon/icon.ico"
 
 #include "wx/msw/wx.rc"
 
