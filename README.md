@@ -1,9 +1,13 @@
-# ncmdump-GUI
+# ncmdump-GUI v1.1
 
 跨平台的ncmdump图形界面，**实验性项目**。
  
 本项目使用 [anonymous5l/ncmdump](https://github.com/anonymous5l/ncmdump) 作为后端，稍作改动以适应GUI的情形。
 
+# 升级日志
+
+ - 增加一列显示文件名
+ - 添加好看的icon
 
 ## 使用方法
 

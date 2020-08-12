@@ -5,8 +5,14 @@
 
 void addListCtrlCol(wxListCtrl& l)
 {
-    l.InsertColumn(0, _("File Name"), wxLIST_FORMAT_LEFT, 520);
-    l.InsertColumn(1, _("Size"), wxLIST_FORMAT_LEFT);
+    const wxArrayInt a(3);
+    a[0] = 1;
+    a[1] = 2;
+    a[2] = 0;
+    l.InsertColumn(0, _("Full Path"), wxLIST_FORMAT_LEFT, 350);
+    l.InsertColumn(1, _("File Name"), wxLIST_FORMAT_LEFT, 300);
+    l.InsertColumn(2, _("Size"), wxLIST_FORMAT_LEFT);
+    l.SetColumnsOrder(a);
     //wxMessageBox("aaa");
 }
 
@@ -15,15 +21,20 @@ void ncmdump_GUIFrame::reFillList()
     itembox->DeleteAllItems();
     int cnt = 0;
     for(auto i: sFile){
-        wxListItem fn, fs;
+        wxListItem fn, fs, fp;
         wxFileName f( static_cast<wxString>(i) );
 
-        fn.SetColumn(0);
-        fn.SetId(cnt++);
-        fn.SetText(i);
-        const auto ind = itembox->InsertItem(fn);
+        fp.SetColumn(0);
+        fp.SetId(++cnt);
+        fp.SetText(i);
+        const auto ind = itembox->InsertItem(fp);
 
-        fs.SetColumn(1);
+        fn.SetColumn(1);
+        fn.SetId(ind);
+        fn.SetText( f.GetName() );
+        itembox->SetItem(fn);
+
+        fs.SetColumn(2);
         fs.SetId(ind);
         fs.SetText( f.GetHumanReadableSize() );
         itembox->SetItem(fs);

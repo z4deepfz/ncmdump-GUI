@@ -259,7 +259,7 @@ void ncmdump_GUIFrame::OnStartConvert(wxCommandEvent& event)
             if( DumpNcm(i, opath) == false ){
                 /// 3. when error occured, pop up a dialog asking if continue
                 setItemColor(static_cast<wxString>(i), red);
-                wxMessageDialog e(this, _("Error occured when converting \"") + i + _("\" Would you like to continue?"),
+                wxMessageDialog e(this, _("Error occured when converting \"") + i + _("\"\nWould you like to continue?"),
                                   _("Error"), wxYES_NO|wxICON_HAND|wxCENTER);
                 if( e.ShowModal() == wxID_NO ){
                     wxMessageBox(_("Task Abort!"), _("Warning"), wxICON_HAND|wxCENTER);
