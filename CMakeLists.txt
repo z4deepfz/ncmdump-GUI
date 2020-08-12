@@ -5,7 +5,7 @@ find_package(wxWidgets REQUIRED)
 find_package(taglib)
 
 # Compile source files
-set(CMAKE_CXX_FLAGS "-std=c++11 -static -s -O3 -Wno-deprecated-declarations -DTAGLIB_STATIC") # specified flags
+set(CMAKE_CXX_FLAGS "-std=c++11 -static -s -O3 -flto -Wno-deprecated-declarations -DTAGLIB_STATIC") # specified flags
 
 # Set Variables
 # On Windows
