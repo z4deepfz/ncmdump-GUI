@@ -1,15 +1,16 @@
-#include "ncmdump_GUIApp.h"
+#ifndef GUIEXTRA_HPP
+#define GUIEXTRA_HPP
+
 #include "ncmdump_GUIMain.h"
-#include "wx/wx.h"
+#include "MergeFileDialog.h"
+#include <wx/wx.h>
 #include <exception>
 
 void addListCtrlCol(wxListCtrl& l)
 {
-    const wxArrayInt a(3);
-    a[0] = 1;
-    a[1] = 2;
-    a[2] = 0;
-    l.InsertColumn(0, _("Full Path"), wxLIST_FORMAT_LEFT, 350);
+    const int _a[3] = {1, 2, 0};
+    const wxArrayInt a(_a, _a+3);
+    l.InsertColumn(0, _("Path"), wxLIST_FORMAT_LEFT, 350);
     l.InsertColumn(1, _("File Name"), wxLIST_FORMAT_LEFT, 300);
     l.InsertColumn(2, _("Size"), wxLIST_FORMAT_LEFT);
     l.SetColumnsOrder(a);
@@ -19,13 +20,13 @@ void addListCtrlCol(wxListCtrl& l)
 void ncmdump_GUIFrame::reFillList()
 {
     itembox->DeleteAllItems();
-    int cnt = 0;
+    unsigned cnt = 0;
     for(auto i: sFile){
         wxListItem fn, fs, fp;
         wxFileName f( static_cast<wxString>(i) );
 
         fp.SetColumn(0);
-        fp.SetId(++cnt);
+        fp.SetId(cnt++);
         fp.SetText(i);
         const auto ind = itembox->InsertItem(fp);
 
@@ -51,15 +52,21 @@ void ncmdump_GUIFrame::setItemColor(const wxString& s, const wxColor& c)
     return;
 }
 
-bool DumpNcm(const std::string& s, const std::string& opath="")
+bool DumpNcm(const std::string& s, const std::string& opath="", const bool fixmeta=false)
 {
     try{
         NeteaseCrypt c(s);
         c.Dump(opath);
-        c.FixMetadata();
+        if(fixmeta){
+            c.FixMetadata();
+        }
+    }
+    catch(std::exception& e){
+        std::cerr << e.what();
+        return false;
     }
     catch(...){
-        return false;
+        std::cerr<< "Catch Unknow Error\n";
     }
     return true;
 }
@@ -98,3 +105,5 @@ class DnDTarget: public wxFileDropTarget
     private:
         ncmdump_GUIFrame* m_owner;
 };
+
+#endif // GUIEXTRA_HPP

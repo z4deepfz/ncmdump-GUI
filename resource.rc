@@ -1,4 +1,5 @@
 aaaa ICON "icon/icon.ico"
+options_icon ICON "icon/options.ico"
 
 #include "wx/msw/wx.rc"
 

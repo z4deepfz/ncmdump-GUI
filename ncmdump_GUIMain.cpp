@@ -47,10 +47,12 @@ const long ncmdump_GUIFrame::ID_LISTCTRL1 = wxNewId();
 const long ncmdump_GUIFrame::ID_BUTTON1 = wxNewId();
 const long ncmdump_GUIFrame::ID_BUTTON2 = wxNewId();
 const long ncmdump_GUIFrame::ID_BUTTON4 = wxNewId();
+const long ncmdump_GUIFrame::ID_BUTTON5 = wxNewId();
 const long ncmdump_GUIFrame::ID_BUTTON3 = wxNewId();
 const long ncmdump_GUIFrame::ID_GAUGE1 = wxNewId();
 const long ncmdump_GUIFrame::ID_PANEL1 = wxNewId();
 const long ncmdump_GUIFrame::idMenuQuit = wxNewId();
+const long ncmdump_GUIFrame::ID_MENUITEM1 = wxNewId();
 const long ncmdump_GUIFrame::idMenuAbout = wxNewId();
 const long ncmdump_GUIFrame::ID_STATUSBAR1 = wxNewId();
 //*)
@@ -94,15 +96,19 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
     btnClear = new wxButton(Panel1, ID_BUTTON4, _("Clear"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON4"));
     btnClear->SetMinSize(wxSize(-1,36));
     BoxSizer2->Add(btnClear, 0, wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND, 5);
-    BoxSizer2->Add(-1,-1,6, wxALL|wxEXPAND, 5);
+    BoxSizer2->Add(-1,-1,6, wxLEFT|wxRIGHT|wxEXPAND, 5);
+    btnOption = new wxButton(Panel1, ID_BUTTON5, _("Options"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON5"));
+    btnOption->SetMinSize(wxSize(-1,36));
+    BoxSizer2->Add(btnOption, 1, wxLEFT|wxRIGHT|wxEXPAND, 5);
     StaticBoxSizer1->Add(BoxSizer2, 0, wxALL|wxEXPAND, 5);
     BoxSizer3->Add(StaticBoxSizer1, 5, wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND, 5);
     BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-    Button1 = new wxButton(Panel1, ID_BUTTON3, _("Convert"), wxDefaultPosition, wxSize(100,-1), 0, wxDefaultValidator, _T("ID_BUTTON3"));
-    BoxSizer4->Add(Button1, 0, wxRIGHT|wxEXPAND, 5);
+    Button1 = new wxButton(Panel1, ID_BUTTON3, _("Convert"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
+    Button1->SetMinSize(wxSize(-1,30));
+    BoxSizer4->Add(Button1, 0, wxALL|wxEXPAND, 4);
     gauge = new wxGauge(Panel1, ID_GAUGE1, 100, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_GAUGE1"));
-    BoxSizer4->Add(gauge, 5, wxLEFT|wxEXPAND, 5);
-    BoxSizer3->Add(BoxSizer4, 0, wxALL|wxEXPAND, 5);
+    BoxSizer4->Add(gauge, 5, wxALL|wxEXPAND, 5);
+    BoxSizer3->Add(BoxSizer4, 0, wxALL|wxEXPAND, 0);
     BoxSizer1->Add(BoxSizer3, 1, wxALL|wxEXPAND, 10);
     Panel1->SetSizer(BoxSizer1);
     BoxSizer1->Fit(Panel1);
@@ -112,10 +118,14 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quit\tAlt-F4"), _("Quit the application"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
     MenuBar1->Append(Menu1, _("&File"));
+    Menu3 = new wxMenu();
+    MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Sound Quality Upgrade"), wxEmptyString, wxITEM_NORMAL);
+    Menu3->Append(MenuItem3);
+    MenuBar1->Append(Menu3, _("&Tools"));
     Menu2 = new wxMenu();
     MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("About\tF1"), _("Show info about this application"), wxITEM_NORMAL);
     Menu2->Append(MenuItem2);
-    MenuBar1->Append(Menu2, _("Help"));
+    MenuBar1->Append(Menu2, _("&Help"));
     SetMenuBar(MenuBar1);
     stb = new wxStatusBar(this, ID_STATUSBAR1, 0, _T("ID_STATUSBAR1"));
     int __wxStatusBarWidths_1[1] = { -1 };
@@ -128,10 +138,15 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnAddFile);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnDeleteItem);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnClear);
+    Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnOptions);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnStartConvert);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnQuit);
+    Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnToolDelPoorFiles);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnAbout);
     //*)
+
+    d_option = new ncmdumpGUI_OptionsDialog(this);
+    d_merge  = new MergeFileDialog(this);
 
     SetDropTarget(new DnDTarget(this));
     flagEdiable = true;
@@ -239,10 +254,14 @@ void ncmdump_GUIFrame::OnDeleteItem(wxCommandEvent& event)
 
 void ncmdump_GUIFrame::OnStartConvert(wxCommandEvent& event)
 {
-    flagEdiable = false;
-
+    /// const value
     const auto red = wxColor(237, 38, 36);
     const auto green = wxColor(0, 201, 87);
+
+    /// flags
+    flagEdiable = false;
+    const auto flagDelNCM  = d_option->isDeleteNCMFile();
+    const auto flagFixMeta = d_option->isFixMetaData();
 
     /// function: convert all of the files
     /// 1. pop up a file dialog to require the output path
@@ -256,18 +275,24 @@ void ncmdump_GUIFrame::OnStartConvert(wxCommandEvent& event)
         gauge->SetValue(0);
         stb->SetStatusText(wxString::Format(" (0/%d) Processing...", tot));
         for(auto i: sFile){
-            if( DumpNcm(i, opath) == false ){
+            if( DumpNcm(i, opath, flagFixMeta) ){
+                setItemColor(static_cast<wxString>(i), green);
+                if( flagDelNCM ){
+                    if( wxRemoveFile( static_cast<wxString>(i) ) == false ){
+                        // delete failed
+                        wxMessageBox(_("Delete Failed!"), _("Warning"), wxICON_INFORMATION|wxCENTER);
+                    }
+                }
+            }
+            else{
                 /// 3. when error occured, pop up a dialog asking if continue
                 setItemColor(static_cast<wxString>(i), red);
                 wxMessageDialog e(this, _("Error occured when converting \"") + i + _("\"\nWould you like to continue?"),
                                   _("Error"), wxYES_NO|wxICON_HAND|wxCENTER);
                 if( e.ShowModal() == wxID_NO ){
-                    wxMessageBox(_("Task Abort!"), _("Warning"), wxICON_HAND|wxCENTER);
+                    wxMessageBox(_("Task Abort!"), _("Warning"), wxICON_INFORMATION|wxCENTER);
                     goto endfunc;
                 }
-            }
-            else{
-                setItemColor(static_cast<wxString>(i), green);
             }
             /// update gauge when pass a task
             ++cnt;
@@ -290,4 +315,15 @@ void ncmdump_GUIFrame::OnClear(wxCommandEvent& event)
         sFile.clear();
         itembox->DeleteAllItems();
     }
+}
+
+void ncmdump_GUIFrame::OnOptions(wxCommandEvent& event)
+{
+    d_option->Show();
+}
+
+void ncmdump_GUIFrame::OnToolDelPoorFiles(wxCommandEvent& event)
+{
+    d_merge->Show();
+    return;
 }

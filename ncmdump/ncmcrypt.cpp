@@ -1,17 +1,5 @@
 #include "ncmcrypt.h"
-#include "aes.h"
-#include "base64.h"
-#include "cJSON.h"
 
-#include <taglib/mpegfile.h>
-#include <taglib/flacfile.h>
-#include <taglib/attachedpictureframe.h>
-#include <taglib/id3v2tag.h>
-#include <taglib/tag.h>
-
-#include <stdexcept>
-#include <string>
-#include <memory>
 
 const unsigned char NeteaseCrypt::sCoreKey[17]   = {0x68, 0x7A, 0x48, 0x52, 0x41, 0x6D, 0x73, 0x6F, 0x35, 0x6B, 0x49, 0x6E, 0x62, 0x61, 0x78, 0x57, 0};
 const unsigned char NeteaseCrypt::sModifyKey[17] = {0x23, 0x31, 0x34, 0x6C, 0x6A, 0x6B, 0x5F, 0x21, 0x5C, 0x5D, 0x26, 0x30, 0x55, 0x3C, 0x27, 0x28, 0};
@@ -178,18 +166,21 @@ std::string NeteaseCrypt::mimeType(std::string& data) {
 	return std::string("image/jpeg");
 }
 
+/// following I tried to delete pointers but probably got SEGMENT FAULT...
+/// I dont know why and I may deal with it later
+/*
 void NeteaseCrypt::FixMetadata() {
 	if (mDumpFilepath.length() <= 0) {
 		throw std::invalid_argument("must dump before");
 	}
 
-    std::unique_ptr<TagLib::File> audioFile;
-    std::unique_ptr<TagLib::Tag> tag;
+    TagLib::File* audioFile;
+    TagLib::Tag* tag;
 	TagLib::ByteVector vector(mImageData.c_str(), mImageData.length());
 
 	if (mFormat == NeteaseCrypt::MP3) {
-		audioFile.reset( new TagLib::MPEG::File(mDumpFilepath.c_str()) );
-		tag.reset( dynamic_cast<TagLib::MPEG::File*>(audioFile.get())->ID3v2Tag(true) );
+		audioFile = new TagLib::MPEG::File(mDumpFilepath.c_str());
+		tag = dynamic_cast<TagLib::MPEG::File*>(audioFile)->ID3v2Tag(true);
 
 		if (mImageData.length() > 0) {
 			TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame;
@@ -197,11 +188,12 @@ void NeteaseCrypt::FixMetadata() {
 			frame->setMimeType(mimeType(mImageData));
 			frame->setPicture(vector);
 
-			dynamic_cast<TagLib::ID3v2::Tag*>(tag.get())->addFrame(frame);
+			dynamic_cast<TagLib::ID3v2::Tag*>(tag)->addFrame(frame);
+			delete frame;
 		}
 	} else if (mFormat == NeteaseCrypt::FLAC) {
-		audioFile.reset( new TagLib::FLAC::File(mDumpFilepath.c_str()) );
-		tag.reset( audioFile->tag() );
+		audioFile = new TagLib::FLAC::File(mDumpFilepath.c_str());
+		tag = audioFile->tag() ;
 
 		if (mImageData.length() > 0) {
 			TagLib::FLAC::Picture *cover = new TagLib::FLAC::Picture;
@@ -209,7 +201,7 @@ void NeteaseCrypt::FixMetadata() {
 			cover->setType(TagLib::FLAC::Picture::FrontCover);
 			cover->setData(vector);
 
-			dynamic_cast<TagLib::FLAC::File*>(audioFile.get())->addPicture(cover);
+			dynamic_cast<TagLib::FLAC::File*>(audioFile)->addPicture(cover);
 		}
 	}
 
@@ -221,7 +213,57 @@ void NeteaseCrypt::FixMetadata() {
 
 	tag->setComment(TagLib::String("Create by netease copyright protected dump tool. author 5L", TagLib::String::UTF8));
 
-	audioFile->save();
+    audioFile->save();
+
+    delete audioFile;
+	//delete tag;
+}
+*/
+
+void NeteaseCrypt::FixMetadata() {
+	if (mDumpFilepath.length() <= 0) {
+		throw std::invalid_argument("must dump before");
+	}
+
+    //TagLib::File *audioFile;
+    TagLib::FileRef audioFile(mDumpFilepath.c_str());
+	TagLib::Tag *tag;
+	TagLib::ID3v2::AttachedPictureFrame *frame;
+	TagLib::ByteVector vector(mImageData.c_str(), mImageData.length());
+
+	if (mFormat == NeteaseCrypt::MP3) {
+		//audioFile = new TagLib::MPEG::File(mDumpFilepath.c_str());
+		tag = dynamic_cast<TagLib::MPEG::File*>(audioFile.file())->ID3v2Tag(true);
+
+		if (mImageData.length() > 0) {
+			frame = new TagLib::ID3v2::AttachedPictureFrame;
+			frame->setMimeType(mimeType(mImageData));
+			frame->setPicture(vector);
+			dynamic_cast<TagLib::ID3v2::Tag*>(tag)->addFrame(frame);
+		}
+	} else if (mFormat == NeteaseCrypt::FLAC) {
+		//audioFile = new TagLib::FLAC::File(mDumpFilepath.c_str());
+		tag = audioFile.file()->tag();
+
+		if (mImageData.length() > 0) {
+			TagLib::FLAC::Picture *cover = new TagLib::FLAC::Picture;
+			cover->setMimeType(mimeType(mImageData));
+			cover->setType(TagLib::FLAC::Picture::FrontCover);
+			cover->setData(vector);
+
+			dynamic_cast<TagLib::FLAC::File*>(audioFile.file())->addPicture(cover);
+		}
+	}
+
+	if (mMetaData != NULL) {
+		tag->setTitle(TagLib::String(mMetaData->name(), TagLib::String::UTF8));
+		tag->setArtist(TagLib::String(mMetaData->artist(), TagLib::String::UTF8));
+		tag->setAlbum(TagLib::String(mMetaData->album(), TagLib::String::UTF8));
+	}
+
+	tag->setComment(TagLib::String("Create by netease copyright protected dump tool. author 5L", TagLib::String::UTF8));
+
+	audioFile.save();
 }
 
 void NeteaseCrypt::Dump(const std::string& rpath) {
@@ -248,7 +290,7 @@ void NeteaseCrypt::Dump(const std::string& rpath) {
 	}
 	else{
         mDumpFilepath = rpath + "\\" + fileNameWithoutExt(mFilepath);
-        std::cout << "Find output path: " << mDumpFilepath << std::endl;
+        //std::cout << "Find output path: " << mDumpFilepath << std::endl;
 	}
 	// }
 
@@ -292,7 +334,6 @@ NeteaseCrypt::~NeteaseCrypt() {
 	if (mMetaData != NULL) {
 		delete mMetaData;
 	}
-
 	mFile.close();
 }
 

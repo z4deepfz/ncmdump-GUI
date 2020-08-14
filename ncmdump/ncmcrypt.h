@@ -1,10 +1,21 @@
 #pragma once
 
-#include "aes.h"
-#include "cJSON.h"
-
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
+#include <string>
+#include <memory>
+
+#include "aes.h"
+#include "cJSON.h"
+#include "base64.h"
+#include <taglib/mpegfile.h>
+#include <taglib/flacfile.h>
+#include <taglib/attachedpictureframe.h>
+#include <taglib/id3v2tag.h>
+#include <taglib/tag.h>
+#include <taglib/fileref.h>
+
 
 class NeteaseMusicMetadata {
 
@@ -45,6 +56,7 @@ private:
 	NcmFormat mFormat;
 	std::string mImageData;
 	std::ifstream mFile;
+
 	unsigned char mKeyBox[256];
 	NeteaseMusicMetadata* mMetaData;
 

@@ -10,11 +10,16 @@
 #ifndef NCMDUMP_GUIMAIN_H
 #define NCMDUMP_GUIMAIN_H
 
-#include "ncmdump/ncmcrypt.h"
+#include <set>
+#include <thread>
 #include <wx/filedlg.h>
 #include <wx/filename.h>
 #include <wx/dnd.h>
-#include <set>
+#include <wx/utils.h>
+
+#include "MergeFileDialog.h"
+#include "ncmdump/ncmcrypt.h"
+#include "ncmdumpGUI_OptionsDialog.h"
 
 //(*Headers(ncmdump_GUIFrame)
 #include <wx/button.h>
@@ -36,6 +41,10 @@ class ncmdump_GUIFrame: public wxFrame
 
         bool flagEdiable;
 
+    private:        /* Dialog(s) */
+        ncmdumpGUI_OptionsDialog *d_option;
+        MergeFileDialog *d_merge;
+
     public:
         ncmdump_GUIFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~ncmdump_GUIFrame();
@@ -52,6 +61,8 @@ class ncmdump_GUIFrame: public wxFrame
         void OnDeleteItem(wxCommandEvent& event);
         void OnStartConvert(wxCommandEvent& event);
         void OnClear(wxCommandEvent& event);
+        void OnOptions(wxCommandEvent& event);
+        void OnToolDelPoorFiles(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(ncmdump_GUIFrame)
@@ -59,10 +70,12 @@ class ncmdump_GUIFrame: public wxFrame
         static const long ID_BUTTON1;
         static const long ID_BUTTON2;
         static const long ID_BUTTON4;
+        static const long ID_BUTTON5;
         static const long ID_BUTTON3;
         static const long ID_GAUGE1;
         static const long ID_PANEL1;
         static const long idMenuQuit;
+        static const long ID_MENUITEM1;
         static const long idMenuAbout;
         static const long ID_STATUSBAR1;
         //*)
@@ -72,8 +85,11 @@ class ncmdump_GUIFrame: public wxFrame
         wxButton* btnAdd;
         wxButton* btnClear;
         wxButton* btnDel;
+        wxButton* btnOption;
         wxGauge* gauge;
         wxListCtrl* itembox;
+        wxMenu* Menu3;
+        wxMenuItem* MenuItem3;
         wxPanel* Panel1;
         wxStatusBar* stb;
         //*)

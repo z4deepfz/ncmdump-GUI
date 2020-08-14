@@ -55,9 +55,19 @@
 											<border>5</border>
 										</object>
 										<object class="spacer">
-											<flag>wxALL|wxEXPAND</flag>
+											<flag>wxLEFT|wxRIGHT|wxEXPAND</flag>
 											<border>5</border>
 											<option>6</option>
+										</object>
+										<object class="sizeritem">
+											<object class="wxButton" name="ID_BUTTON5" variable="btnOption" member="yes">
+												<label>Options</label>
+												<minsize>-1,36</minsize>
+												<handler function="OnOptions" entry="EVT_BUTTON" />
+											</object>
+											<flag>wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<border>5</border>
+											<option>1</option>
 										</object>
 									</object>
 									<flag>wxALL|wxEXPAND</flag>
@@ -73,21 +83,20 @@
 								<object class="sizeritem">
 									<object class="wxButton" name="ID_BUTTON3" variable="Button1" member="yes">
 										<label>Convert</label>
-										<size>100,-1</size>
+										<minsize>-1,30</minsize>
 										<handler function="OnStartConvert" entry="EVT_BUTTON" />
 									</object>
-									<flag>wxRIGHT|wxEXPAND</flag>
-									<border>5</border>
+									<flag>wxALL|wxEXPAND</flag>
+									<border>4</border>
 								</object>
 								<object class="sizeritem">
 									<object class="wxGauge" name="ID_GAUGE1" variable="gauge" member="yes" />
-									<flag>wxLEFT|wxEXPAND</flag>
+									<flag>wxALL|wxEXPAND</flag>
 									<border>5</border>
 									<option>5</option>
 								</object>
 							</object>
 							<flag>wxALL|wxEXPAND</flag>
-							<border>5</border>
 						</object>
 					</object>
 					<flag>wxALL|wxEXPAND</flag>
@@ -106,8 +115,15 @@
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
+			<object class="wxMenu" variable="Menu3" member="yes">
+				<label>&amp;Tools</label>
+				<object class="wxMenuItem" name="ID_MENUITEM1" variable="MenuItem3" member="yes">
+					<label>Sound Quality Upgrade</label>
+					<handler function="OnToolDelPoorFiles" entry="EVT_MENU" />
+				</object>
+			</object>
 			<object class="wxMenu" variable="Menu2" member="no">
-				<label>Help</label>
+				<label>&amp;Help</label>
 				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">
 					<label>About</label>
 					<accel>F1</accel>
