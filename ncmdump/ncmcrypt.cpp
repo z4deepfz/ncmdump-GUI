@@ -225,10 +225,9 @@ void NeteaseCrypt::FixMetadata() {
 		throw std::invalid_argument("must dump before");
 	}
 
-    //TagLib::File *audioFile;
     TagLib::FileRef audioFile(mDumpFilepath.c_str());
-	TagLib::Tag *tag;
-	TagLib::ID3v2::AttachedPictureFrame *frame;
+	TagLib::Tag *tag = nullptr;
+	TagLib::ID3v2::AttachedPictureFrame *frame = nullptr;
 	TagLib::ByteVector vector(mImageData.c_str(), mImageData.length());
 
 	if (mFormat == NeteaseCrypt::MP3) {

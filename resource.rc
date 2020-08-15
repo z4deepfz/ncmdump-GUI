@@ -2,14 +2,11 @@ aaaa ICON "icon/icon.ico"
 options_icon ICON "icon/options.ico"
 
 #include "wx/msw/wx.rc"
-
-#ifdef ADD_VERSION_INFO
-
 #include "version.h"
 
 1 VERSIONINFO
 FILEVERSION RC_FILEVERSION
-PRODUCTVERSION 1,0,0,0
+PRODUCTVERSION 1,2,0,0
 FILEOS VOS__WINDOWS32
 FILETYPE VFT_APP
 BEGIN
@@ -20,7 +17,7 @@ BEGIN
     BEGIN
       VALUE "FileVersion", RC_FILEVERSION_STRING
       VALUE "ProductName", "NCMDump-GUI"
-      VALUE "ProductVersion", "1.0.0.0"
+      VALUE "ProductVersion", "1.2.0.0"
       VALUE "CompanyName", "github.com/z4deepfz"
       VALUE "LegalCopyright", "z4deepfz, anonymous5l, 2020"
     END
@@ -32,4 +29,3 @@ BEGIN
   END
 END
 
-#endif

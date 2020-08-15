@@ -39,6 +39,15 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 #else
         wxbuild << _T("-ANSI build");
 #endif // wxUSE_UNICODE
+        wxbuild << _("\nMacro defined:\n");
+
+#ifdef ENABLE_SOUND_QUALITY
+        wxbuild << _("\tENABLE_SOUND_QUALITY\n");
+#endif // ENABLE_SOUND_QUALITY
+
+#ifdef ENABLE_MULTI_THREADS
+        wxbuild << _("\tENABLE_MULTI_THREADS\n");
+#endif // ENABLE_MULTI_THREADS
     }
 
     return wxbuild;
@@ -255,8 +264,12 @@ void ncmdump_GUIFrame::OnDeleteItem(wxCommandEvent& event)
 
 void ncmdump_GUIFrame::OnStartConvert(wxCommandEvent& event)
 {
+#ifdef ENABLE_MULTI_THREADS
     std::thread thread0(ConvertAllNcmFiles, this);
     thread0.detach();
+#else
+    ConvertAllNcmFiles();
+#endif // ENABLE_MULTI_THREADS
 }
 
 void ncmdump_GUIFrame::OnClear(wxCommandEvent& event)

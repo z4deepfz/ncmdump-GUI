@@ -12,6 +12,7 @@
 
 #include <set>
 #include <thread>
+#include <mutex>
 #include <wx/filedlg.h>
 #include <wx/filename.h>
 #include <wx/dnd.h>
@@ -21,11 +22,20 @@
 #include "ncmdump/ncmcrypt.h"
 #include "ncmdumpGUI_OptionsDialog.h"
 
-#if WINVER > 0x0501
-    /// comment: function `sound_quality_update` has some problems under winXP and earlier
-    ///          this macro will block the function under winXP
+#ifdef _WIN32
+    #if WINVER > 0x0501
+        /// comment: function `sound_quality_update` seems has some problems under winXP
+        ///          this macro will block the function under winXP
+        #define ENABLE_SOUND_QUALITY
+        /// comment: std::thread doesn't support on winXP or earlier.
+        ///          this macro will disable multi-threads to make sure the program works
+        #define ENABLE_MULTI_THREADS
+    #endif // WINVER
+#else
     #define ENABLE_SOUND_QUALITY
-#endif // WINVER
+    #define ENABLE_MULTI_THREADS
+#endif // _WIN32
+
 
 //(*Headers(ncmdump_GUIFrame)
 #include <wx/button.h>
