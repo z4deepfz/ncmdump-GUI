@@ -63,7 +63,7 @@ const long ncmdump_GUIFrame::ID_BUTTON3 = wxNewId();
 const long ncmdump_GUIFrame::ID_GAUGE1 = wxNewId();
 const long ncmdump_GUIFrame::ID_PANEL1 = wxNewId();
 const long ncmdump_GUIFrame::idMenuQuit = wxNewId();
-const long ncmdump_GUIFrame::ID_MENUITEM1 = wxNewId();
+const long ncmdump_GUIFrame::idSoundQualityUpgrade = wxNewId();
 const long ncmdump_GUIFrame::idMenuAbout = wxNewId();
 const long ncmdump_GUIFrame::ID_STATUSBAR1 = wxNewId();
 //*)
@@ -130,7 +130,7 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
     Menu1->Append(MenuItem1);
     MenuBar1->Append(Menu1, _("&File"));
     Menu3 = new wxMenu();
-    MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Sound Quality Upgrade"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem3 = new wxMenuItem(Menu3, idSoundQualityUpgrade, _("Sound Quality Upgrade"), wxEmptyString, wxITEM_NORMAL);
     Menu3->Append(MenuItem3);
     MenuBar1->Append(Menu3, _("&Tools"));
     Menu2 = new wxMenu();
@@ -152,7 +152,7 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnOptions);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnStartConvert);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnQuit);
-    Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnToolDelPoorFiles);
+    Connect(idSoundQualityUpgrade,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnToolDelPoorFiles);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnAbout);
     //*)
 
@@ -265,8 +265,19 @@ void ncmdump_GUIFrame::OnDeleteItem(wxCommandEvent& event)
 void ncmdump_GUIFrame::OnStartConvert(wxCommandEvent& event)
 {
 #ifdef ENABLE_MULTI_THREADS
-    std::thread thread0(ConvertAllNcmFiles, this);
-    thread0.detach();
+    #ifdef USE_STD_MULTITHREADS
+        std::thread thread0(ConvertAllNcmFiles, this);
+        thread0.detach();
+    #else // use wxThread
+        auto tp = new ConvertTaskThread(*this);
+        if( tp->Create() == wxTHREAD_NO_ERROR ){
+            tp->Run();
+        }
+        else{ // create failed
+            wxMessageBox(_("Convert thread create error!"), _("Error"), wxICON_HAND|wxCENTER);
+            delete tp;
+        }
+    #endif // USE_STD_MULTITHREADS
 #else
     ConvertAllNcmFiles();
 #endif // ENABLE_MULTI_THREADS
@@ -293,7 +304,6 @@ void ncmdump_GUIFrame::OnToolDelPoorFiles(wxCommandEvent& event)
 #else
     wxMessageBox(_("Sorry, this function is unavalible on your operating system."), _("Warning"));
 #endif // ENABLE_SOUND_QUALITY
-    return;
 }
 
 void ncmdump_GUIFrame::ConvertAllNcmFiles()

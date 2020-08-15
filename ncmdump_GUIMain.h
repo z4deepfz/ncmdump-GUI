@@ -10,6 +10,33 @@
 #ifndef NCMDUMP_GUIMAIN_H
 #define NCMDUMP_GUIMAIN_H
 
+/// some macro switches
+
+#ifdef _WIN32
+    /// following features lead to `unknown software exception` on Windows XP.
+    /// I patched it by these macros temporary. If they work well, you can re-enable them.
+    #if WINVER > 0x0501
+        /// enable feature `sound_quality_update`
+        #define ENABLE_SOUND_QUALITY
+        /// enable multi-threads. This can keep GUI running during converting (or GUI will freeze)
+        #define ENABLE_MULTI_THREADS
+    #endif // WINVER
+#else // on other OS, enable them
+    #define ENABLE_SOUND_QUALITY
+    #define ENABLE_MULTI_THREADS
+#endif // _WIN32
+
+/**
+ *  macro `USE_STD_MULTITHREADS` use std::thread instead of wxThread.
+ *  Official document suggests using std::thread with c++11
+ *  it's no much difference between them theoretically
+ *  but after my test, there're some compatibility problems when using std::thread on Windows XP SP2 or earlier
+ *  I'm not pretty sure if it's my fault or the runtime issue on Windows XP
+ *  So if this problem doesn't appear on your system, just enable it¡£
+**/
+#define USE_STD_MULTITHREADS
+
+
 #include <set>
 #include <thread>
 #include <mutex>
@@ -21,21 +48,7 @@
 #include "MergeFileDialog.h"
 #include "ncmdump/ncmcrypt.h"
 #include "ncmdumpGUI_OptionsDialog.h"
-
-#ifdef _WIN32
-    #if WINVER > 0x0501
-        /// comment: function `sound_quality_update` seems has some problems under winXP
-        ///          this macro will block the function under winXP
-        #define ENABLE_SOUND_QUALITY
-        /// comment: std::thread doesn't support on winXP or earlier.
-        ///          this macro will disable multi-threads to make sure the program works
-        #define ENABLE_MULTI_THREADS
-    #endif // WINVER
-#else
-    #define ENABLE_SOUND_QUALITY
-    #define ENABLE_MULTI_THREADS
-#endif // _WIN32
-
+#include "ConvertTaskThread.h"
 
 //(*Headers(ncmdump_GUIFrame)
 #include <wx/button.h>
@@ -50,6 +63,7 @@
 
 class ncmdump_GUIFrame: public wxFrame
 {
+    friend class ConvertTaskThread;
     private: /// custom data
         std::set<std::string> sFile;   /// array to buf the file path
         void reFillList();
@@ -89,7 +103,7 @@ class ncmdump_GUIFrame: public wxFrame
         static const long ID_GAUGE1;
         static const long ID_PANEL1;
         static const long idMenuQuit;
-        static const long ID_MENUITEM1;
+        static const long idSoundQualityUpgrade;
         static const long idMenuAbout;
         static const long ID_STATUSBAR1;
         //*)
