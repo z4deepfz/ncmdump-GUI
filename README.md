@@ -4,11 +4,11 @@
  
 本项目使用 [anonymous5l/ncmdump](https://github.com/anonymous5l/ncmdump) 作为后端，稍作改动以适应GUI的情形。
 
-# 升级日志
+## 升级日志
 
  - 启用了多线程优化，现在解密ncm文件的时候GUI将保持响应(不支持Windows XP及以下)
 
-# 使用方法
+## 使用方法
 
 使用`Add`按钮添加文件，也可以直接将文件拖放到窗口上。不是`ncm`格式的文件将被忽略。
 
@@ -17,7 +17,7 @@
 可以在`Option`中设置是否删除原文件和是否修复元数据
 
 
-# 编译依赖
+## 编译依赖
 
  1. wxWidgets - GUI库
  2. taglib - ncmdump的依赖
