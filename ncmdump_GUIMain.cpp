@@ -9,6 +9,8 @@
 
 #include "ncmdump_GUIMain.h"
 #include "GUIExtra.hpp"
+#include <thread>
+#include <iostream>
 #include <wx/msgdlg.h>
 
 //(*InternalHeaders(ncmdump_GUIFrame)
@@ -146,7 +148,6 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
     //*)
 
     d_option = new ncmdumpGUI_OptionsDialog(this);
-    d_merge  = new MergeFileDialog(this);
 
     SetDropTarget(new DnDTarget(this));
     flagEdiable = true;
@@ -254,6 +255,36 @@ void ncmdump_GUIFrame::OnDeleteItem(wxCommandEvent& event)
 
 void ncmdump_GUIFrame::OnStartConvert(wxCommandEvent& event)
 {
+    std::thread thread0(ConvertAllNcmFiles, this);
+    thread0.detach();
+}
+
+void ncmdump_GUIFrame::OnClear(wxCommandEvent& event)
+{
+    if(flagEdiable){
+        sFile.clear();
+        itembox->DeleteAllItems();
+    }
+}
+
+void ncmdump_GUIFrame::OnOptions(wxCommandEvent& event)
+{
+    d_option->Show();
+}
+
+void ncmdump_GUIFrame::OnToolDelPoorFiles(wxCommandEvent& event)
+{
+#ifdef ENABLE_SOUND_QUALITY
+    MergeFileDialog* d_merge = new MergeFileDialog(this);
+    d_merge->Show();
+#else
+    wxMessageBox(_("Sorry, this function is unavalible on your operating system."), _("Waring"));
+#endif // ENABLE_SOUND_QUALITY
+    return;
+}
+
+void ncmdump_GUIFrame::ConvertAllNcmFiles()
+{
     /// const value
     const auto red = wxColor(237, 38, 36);
     const auto green = wxColor(0, 201, 87);
@@ -306,24 +337,5 @@ endfunc:
     gauge->SetValue(0);
     flagEdiable = true;
     //stb->SetStatusText("Idle");
-    return;
-}
-
-void ncmdump_GUIFrame::OnClear(wxCommandEvent& event)
-{
-    if(flagEdiable){
-        sFile.clear();
-        itembox->DeleteAllItems();
-    }
-}
-
-void ncmdump_GUIFrame::OnOptions(wxCommandEvent& event)
-{
-    d_option->Show();
-}
-
-void ncmdump_GUIFrame::OnToolDelPoorFiles(wxCommandEvent& event)
-{
-    d_merge->Show();
     return;
 }

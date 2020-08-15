@@ -3,6 +3,7 @@
 	<object class="wxFrame" name="MergeFileDialog">
 		<title>Sound Quality Upgrade</title>
 		<centered>1</centered>
+		<size>640,600</size>
 		<minsize>640,600</minsize>
 		<extra_code>SetIcon(wxIcon(wxT(&quot;options__icon&quot;)));</extra_code>
 		<id_arg>0</id_arg>

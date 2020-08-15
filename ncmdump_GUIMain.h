@@ -21,6 +21,12 @@
 #include "ncmdump/ncmcrypt.h"
 #include "ncmdumpGUI_OptionsDialog.h"
 
+#if WINVER > 0x0501
+    /// comment: function `sound_quality_update` has some problems under winXP and earlier
+    ///          this macro will block the function under winXP
+    #define ENABLE_SOUND_QUALITY
+#endif // WINVER
+
 //(*Headers(ncmdump_GUIFrame)
 #include <wx/button.h>
 #include <wx/frame.h>
@@ -38,19 +44,17 @@ class ncmdump_GUIFrame: public wxFrame
         std::set<std::string> sFile;   /// array to buf the file path
         void reFillList();
         void setItemColor(const wxString& s, const wxColor& c);
-
+        void ConvertAllNcmFiles();
         bool flagEdiable;
 
     private:        /* Dialog(s) */
         ncmdumpGUI_OptionsDialog *d_option;
-        MergeFileDialog *d_merge;
 
     public:
         ncmdump_GUIFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~ncmdump_GUIFrame();
 
         void AddItems(const wxArrayString& a);
-        //void AddItems(const wxString& s);
 
     private:
 

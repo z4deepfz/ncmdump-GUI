@@ -42,6 +42,7 @@ MergeFileDialog::MergeFileDialog(wxWindow* parent,wxWindowID id,const wxPoint& p
 	wxStaticBoxSizer* StaticBoxSizer3;
 
 	Create(parent, wxID_ANY, _("Sound Quality Upgrade"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxCLOSE_BOX|wxMINIMIZE_BOX|wxCLIP_CHILDREN, _T("wxID_ANY"));
+	SetClientSize(wxSize(640,600));
 	SetMinSize(wxSize(640,600));
 	SetIcon(wxIcon(wxT("options_icon")));
 	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(336,328), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
@@ -97,7 +98,8 @@ MergeFileDialog::~MergeFileDialog()
 
 void MergeFileDialog::OnClose(wxCloseEvent& event)
 {
-    Show(false);
+    //Show(false);
+    Destroy();
 }
 
 void MergeFileDialog::OnRun(wxCommandEvent& event)

@@ -65,7 +65,7 @@ ncmdumpGUI_OptionsDialog::~ncmdumpGUI_OptionsDialog()
 
 void ncmdumpGUI_OptionsDialog::OnClose(wxCloseEvent& event)
 {
-    Show(false);
+    Hide();
     /// don't destroy the frame. Hide it instead.
 }
 
