@@ -12,10 +12,13 @@
 
 #include <wx/app.h>
 
+
 class ncmdump_GUIApp : public wxApp
 {
     public:
         virtual bool OnInit();
+    private:
+        wxLocale m_locale;
 };
 
 #endif // NCMDUMP_GUIAPP_H

@@ -18,6 +18,9 @@ IMPLEMENT_APP(ncmdump_GUIApp);
 
 bool ncmdump_GUIApp::OnInit()
 {
+    m_locale.AddCatalogLookupPathPrefix(wxT("."));
+    m_locale.AddCatalogLookupPathPrefix(wxT("locale"));
+    m_locale.AddCatalog(wxT("zh_CN"));
     //(*AppInitialize
     bool wxsOK = true;
     wxInitAllImageHandlers();
@@ -29,5 +32,4 @@ bool ncmdump_GUIApp::OnInit()
     }
     //*)
     return wxsOK;
-
 }

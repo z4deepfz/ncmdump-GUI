@@ -38,4 +38,7 @@
 *.layout
 version.h
 
+# i18n
+*.mo
+
 build

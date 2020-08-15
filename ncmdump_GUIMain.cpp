@@ -291,7 +291,7 @@ void ncmdump_GUIFrame::OnToolDelPoorFiles(wxCommandEvent& event)
     MergeFileDialog* d_merge = new MergeFileDialog(this);
     d_merge->Show();
 #else
-    wxMessageBox(_("Sorry, this function is unavalible on your operating system."), _("Waring"));
+    wxMessageBox(_("Sorry, this function is unavalible on your operating system."), _("Warning"));
 #endif // ENABLE_SOUND_QUALITY
     return;
 }
