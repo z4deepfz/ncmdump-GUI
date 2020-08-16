@@ -25,6 +25,7 @@ ncmdumpGUI_OptionsDialog::ncmdumpGUI_OptionsDialog(wxWindow* parent,wxWindowID i
 {
 	//(*Initialize(ncmdumpGUI_OptionsDialog)
 	wxBoxSizer* BoxSizer1;
+	wxBoxSizer* BoxSizer2;
 	wxStaticBoxSizer* StaticBoxSizer1;
 	wxStaticBoxSizer* StaticBoxSizer2;
 
@@ -35,18 +36,20 @@ ncmdumpGUI_OptionsDialog::ncmdumpGUI_OptionsDialog(wxWindow* parent,wxWindowID i
 	SetIcon(wxIcon(wxT("options_icon")));
 	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(280,392), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	BoxSizer1 = new wxBoxSizer(wxVERTICAL);
+	BoxSizer2 = new wxBoxSizer(wxVERTICAL);
 	StaticBoxSizer1 = new wxStaticBoxSizer(wxVERTICAL, Panel1, _("Files"));
 	chkDelNCM = new wxCheckBox(Panel1, ID_CHECKBOX1, _("Delete .ncm file after converted successfully (be careful)"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
 	chkDelNCM->SetValue(false);
 	StaticBoxSizer1->Add(chkDelNCM, 1, wxALL, 5);
-	BoxSizer1->Add(StaticBoxSizer1, 1, wxALL|wxEXPAND, 5);
+	BoxSizer2->Add(StaticBoxSizer1, 1, wxALL|wxEXPAND, 5);
 	StaticBoxSizer2 = new wxStaticBoxSizer(wxVERTICAL, Panel1, _("Meta Data"));
 	chkFixMeta = new wxCheckBox(Panel1, ID_CHECKBOX2, _("Fix Meta data after decrypted (unstable)"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
 	chkFixMeta->SetValue(true);
 	StaticBoxSizer2->Add(chkFixMeta, 1, wxALL, 5);
 	StaticText1 = new wxStaticText(Panel1, ID_STATICTEXT1, _("Fix Metadata seems not pretty stable. So if you don\'t care about the meta data (author, album, cover, etc...), don\'t check the box."), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
 	StaticBoxSizer2->Add(StaticText1, 1, wxALL|wxEXPAND, 5);
-	BoxSizer1->Add(StaticBoxSizer2, 2, wxALL|wxEXPAND, 5);
+	BoxSizer2->Add(StaticBoxSizer2, 2, wxALL|wxEXPAND, 5);
+	BoxSizer1->Add(BoxSizer2, 1, wxALL|wxEXPAND, 5);
 	Panel1->SetSizer(BoxSizer1);
 	BoxSizer1->Fit(Panel1);
 	BoxSizer1->SetSizeHints(Panel1);

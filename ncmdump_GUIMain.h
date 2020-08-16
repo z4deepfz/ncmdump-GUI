@@ -34,7 +34,7 @@
  *  I'm not pretty sure if it's my fault or the runtime issue on Windows XP
  *  So if this problem doesn't appear on your system, just enable it¡£
 **/
-#define USE_STD_MULTITHREADS
+//#define USE_STD_MULTITHREADS
 
 
 #include <set>
@@ -103,7 +103,7 @@ class ncmdump_GUIFrame: public wxFrame
         static const long ID_GAUGE1;
         static const long ID_PANEL1;
         static const long idMenuQuit;
-        static const long idSoundQualityUpgrade;
+        static const long ID_MENUITEM1;
         static const long idMenuAbout;
         static const long ID_STATUSBAR1;
         //*)

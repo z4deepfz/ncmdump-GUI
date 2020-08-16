@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-08-15 21:55+0800\n"
-"PO-Revision-Date: 2020-08-15 22:24+0800\n"
+"POT-Creation-Date: 2020-08-16 14:05+0800\n"
+"PO-Revision-Date: 2020-08-16 14:06+0800\n"
 "Last-Translator: z4deepfz\n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -23,8 +23,9 @@ msgstr ""
 "X-Poedit-SearchPath-7: ncmdumpGUI_OptionsDialog.h\n"
 "X-Poedit-SearchPath-8: resource.rc\n"
 "X-Poedit-SearchPath-9: version.h\n"
+"X-Poedit-SearchPath-10: ncmdumpGUI_OptionsDialog.cpp\n"
 
-#: GUIExtra.hpp:13 MergeFileDialog.cpp:52
+#: GUIExtra.hpp:13 MergeFileDialog.cpp:54
 msgid "Path"
 msgstr "路径"
 
@@ -36,31 +37,31 @@ msgstr "文件名"
 msgid "Size"
 msgstr "大小"
 
-#: MergeFileDialog.cpp:44 ncmdump_GUIMain.cpp:133
+#: MergeFileDialog.cpp:45 ncmdump_GUIMain.cpp:133
 msgid "Sound Quality Upgrade"
 msgstr "音质升级"
 
-#: MergeFileDialog.cpp:50
+#: MergeFileDialog.cpp:52 ncmdumpGUI_OptionsDialog.cpp:40
 msgid "Files"
 msgstr "文件"
 
-#: MergeFileDialog.cpp:56
+#: MergeFileDialog.cpp:58
 msgid "Select"
 msgstr "选择"
 
-#: MergeFileDialog.cpp:61
+#: MergeFileDialog.cpp:63
 msgid "Strategy"
 msgstr "合并策略"
 
-#: MergeFileDialog.cpp:62
+#: MergeFileDialog.cpp:64
 msgid "Rename as *.poor"
 msgstr "重命名为.poor文件"
 
-#: MergeFileDialog.cpp:65
+#: MergeFileDialog.cpp:67
 msgid "Just delete"
 msgstr "直接删除"
 
-#: MergeFileDialog.cpp:67
+#: MergeFileDialog.cpp:69
 msgid ""
 "You can delete old files at once. Or you can also choose `rename` instead of "
 "`delete`. Then delete them via `Delete *.poor files` after make sure they "
@@ -68,11 +69,11 @@ msgid ""
 msgstr ""
 "你可以一次性删除旧文件；也可以首先重命名，再使用“删除poor文件”按钮将之删除。"
 
-#: MergeFileDialog.cpp:70 MergeFileDialog.cpp:158 MergeFileDialog.cpp:176
+#: MergeFileDialog.cpp:72 MergeFileDialog.cpp:161 MergeFileDialog.cpp:179
 msgid "Note"
 msgstr "提示"
 
-#: MergeFileDialog.cpp:71
+#: MergeFileDialog.cpp:73
 msgid ""
 "This is a simple tool to automatically select higher sound quality files. It "
 "just simply remark or delete `mp3`files only if there's a `flac` file with "
@@ -88,43 +89,67 @@ msgstr ""
 "这是一个自动筛选高音质文件的小工具。该工具将删除同名的mp3文件、保留flac文"
 "件。\n"
 "\n"
-"理论上音质并不总是会提升，但是一般来说flac的音质，尤其是直接从网易云下载/转换"
-"而来的。\n"
+"理论上音质和格式不相关，但是一般来说flac的音质比mp3的好，尤其是直接从网易云下"
+"载到的flac文件码率几乎都比mp3高。\n"
 "\n"
-"鉴于存在一些例外，建议仅将此工具用于从网易云下载的音乐文件。"
+"不过，鉴于存在一些例外，建议仅将此工具用于从网易云下载的音乐文件。"
 
-#: MergeFileDialog.cpp:75
+#: MergeFileDialog.cpp:77
 msgid "Run"
 msgstr "运行"
 
-#: MergeFileDialog.cpp:77
+#: MergeFileDialog.cpp:79
 msgid "Delete *.poor files"
 msgstr "删除*.poor文件"
 
-#: MergeFileDialog.cpp:142 MergeFileDialog.cpp:171
+#: MergeFileDialog.cpp:145 MergeFileDialog.cpp:174
 msgid "Error when delete \""
 msgstr "删除该文件时出错："
 
-#: MergeFileDialog.cpp:142 MergeFileDialog.cpp:147 MergeFileDialog.cpp:171
-#: ncmdump_GUIMain.cpp:335
+#: MergeFileDialog.cpp:145 MergeFileDialog.cpp:150 MergeFileDialog.cpp:174
+#: ncmdump_GUIMain.cpp:277 ncmdump_GUIMain.cpp:345
 msgid "Error"
 msgstr "错误"
 
-#: MergeFileDialog.cpp:147
+#: MergeFileDialog.cpp:150
 msgid "Error when rename \""
 msgstr "重命名该文件时错误："
 
-#: MergeFileDialog.cpp:158 MergeFileDialog.cpp:176
+#: MergeFileDialog.cpp:161 MergeFileDialog.cpp:179
 msgid "Task Finished."
 msgstr "任务完成。"
 
-#: MergeFileDialog.cpp:192
+#: MergeFileDialog.cpp:195
 msgid "Are you sure to continue?"
 msgstr "继续吗？"
 
-#: MergeFileDialog.cpp:192
+#: MergeFileDialog.cpp:195
 msgid "Before Deleting"
 msgstr "删除前"
+
+#: ncmdumpGUI_OptionsDialog.cpp:32 ncmdump_GUIMain.cpp:111
+msgid "Options"
+msgstr "选项"
+
+#: ncmdumpGUI_OptionsDialog.cpp:41
+msgid "Delete .ncm file after converted successfully (be careful)"
+msgstr "转换完成后删除.ncm文件（小心使用）"
+
+#: ncmdumpGUI_OptionsDialog.cpp:45
+msgid "Meta Data"
+msgstr "元数据"
+
+#: ncmdumpGUI_OptionsDialog.cpp:46
+msgid "Fix Meta data after decrypted (unstable)"
+msgstr "解密后修复元数据"
+
+#: ncmdumpGUI_OptionsDialog.cpp:49
+msgid ""
+"Fix Metadata seems not pretty stable. So if you don't care about the meta "
+"data (author, album, cover, etc...), don't check the box."
+msgstr ""
+"修复元数据功能似乎不是非常稳定。所以如果你不在意音乐文件的元数据（包括作者、"
+"专辑名称、封面等），可以不勾选这个功能。"
 
 #: ncmdump_GUIMain.cpp:42
 msgid ""
@@ -134,17 +159,9 @@ msgstr ""
 "\n"
 "预定义的宏：\n"
 
-#: ncmdump_GUIMain.cpp:45
-msgid "\tENABLE_SOUND_QUALITY\n"
-msgstr ""
-
-#: ncmdump_GUIMain.cpp:49
-msgid "\tENABLE_MULTI_THREADS\n"
-msgstr ""
-
 #: ncmdump_GUIMain.cpp:90
 msgid "ncmdump GUI"
-msgstr ""
+msgstr "ncmdump GUI"
 
 #: ncmdump_GUIMain.cpp:96
 msgid "Items"
@@ -161,10 +178,6 @@ msgstr "删除"
 #: ncmdump_GUIMain.cpp:107
 msgid "Clear"
 msgstr "清除"
-
-#: ncmdump_GUIMain.cpp:111
-msgid "Options"
-msgstr "选项"
 
 #: ncmdump_GUIMain.cpp:117
 msgid "Convert"
@@ -202,45 +215,81 @@ msgstr "帮助"
 msgid " Idle"
 msgstr " 就绪"
 
+#: ncmdump_GUIMain.cpp:180
+msgid "Author: z4deepfz\n"
+msgstr "作者：z4deepfz\n"
+
+#: ncmdump_GUIMain.cpp:181
+msgid ""
+"Github Page: https://github.com/z4deepfz\n"
+"\n"
+msgstr ""
+"Github主页：https://github.com/z4deepfz\n"
+"\n"
+
+#: ncmdump_GUIMain.cpp:182
+msgid "----------------Special thanks to----------------\n"
+msgstr "----------------特别感谢----------------\n"
+
+#: ncmdump_GUIMain.cpp:183
+msgid "ncmdump repo: https://github.com/anonymous5l/ncmdump\n"
+msgstr "ncmdump仓库： https://github.com/anonymous5l/ncmdump\n"
+
+#: ncmdump_GUIMain.cpp:184
+msgid "Library Author: anonymous5l\n"
+msgstr "库作者：anonymous5l\n"
+
+#: ncmdump_GUIMain.cpp:185
+msgid ""
+"Github Page: https://github.com/anonymous5l\n"
+"\n"
+msgstr ""
+"Github主页：https://github.com/z4deepfz\n"
+"\n"
+
+#: ncmdump_GUIMain.cpp:186
+msgid "Build info: "
+msgstr "构建信息: "
+
 #: ncmdump_GUIMain.cpp:188
 msgid "About ncmdump Graphical User Interface"
 msgstr "关于ncmdump图形界面"
-
-#: ncmdump_GUIMain.cpp:216
-msgid "*.ncm"
-msgstr ""
 
 #: ncmdump_GUIMain.cpp:248
 msgid "Unexpect Error: Cannot find Item \""
 msgstr "意料之外的错误：无法找到项目"
 
-#: ncmdump_GUIMain.cpp:294
+#: ncmdump_GUIMain.cpp:277
+msgid "Convert thread create error!"
+msgstr "转换线程创建失败！"
+
+#: ncmdump_GUIMain.cpp:305
 msgid "Sorry, this function is unavalible on your operating system."
 msgstr "抱歉，您的操作系统不支持该功能。"
 
-#: ncmdump_GUIMain.cpp:294 ncmdump_GUIMain.cpp:327 ncmdump_GUIMain.cpp:337
+#: ncmdump_GUIMain.cpp:305 ncmdump_GUIMain.cpp:337 ncmdump_GUIMain.cpp:347
 msgid "Warning"
 msgstr "警告"
 
-#: ncmdump_GUIMain.cpp:327
+#: ncmdump_GUIMain.cpp:337
 msgid "Delete Failed!"
 msgstr "删除失败！"
 
-#: ncmdump_GUIMain.cpp:334
+#: ncmdump_GUIMain.cpp:344
 msgid "Error occured when converting \""
 msgstr "转换失败："
 
-#: ncmdump_GUIMain.cpp:334
+#: ncmdump_GUIMain.cpp:344
 msgid ""
 "\"\n"
 "Would you like to continue?"
 msgstr "你要继续吗？"
 
-#: ncmdump_GUIMain.cpp:337
+#: ncmdump_GUIMain.cpp:347
 msgid "Task Abort!"
 msgstr "任务中断！"
 
-#: ncmdump_GUIMain.cpp:346
+#: ncmdump_GUIMain.cpp:356
 msgid "All tasks finished!"
 msgstr "所有任务完成！"
 

@@ -42,11 +42,11 @@ wxString wxbuildinfo(wxbuildinfoformat format)
         wxbuild << _("\nMacro defined:\n");
 
 #ifdef ENABLE_SOUND_QUALITY
-        wxbuild << _("\tENABLE_SOUND_QUALITY\n");
+        wxbuild << "\tENABLE_SOUND_QUALITY\n";
 #endif // ENABLE_SOUND_QUALITY
 
 #ifdef ENABLE_MULTI_THREADS
-        wxbuild << _("\tENABLE_MULTI_THREADS\n");
+        wxbuild << "\tENABLE_MULTI_THREADS\n";
 #endif // ENABLE_MULTI_THREADS
     }
 
@@ -63,7 +63,7 @@ const long ncmdump_GUIFrame::ID_BUTTON3 = wxNewId();
 const long ncmdump_GUIFrame::ID_GAUGE1 = wxNewId();
 const long ncmdump_GUIFrame::ID_PANEL1 = wxNewId();
 const long ncmdump_GUIFrame::idMenuQuit = wxNewId();
-const long ncmdump_GUIFrame::idSoundQualityUpgrade = wxNewId();
+const long ncmdump_GUIFrame::ID_MENUITEM1 = wxNewId();
 const long ncmdump_GUIFrame::idMenuAbout = wxNewId();
 const long ncmdump_GUIFrame::ID_STATUSBAR1 = wxNewId();
 //*)
@@ -130,7 +130,7 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
     Menu1->Append(MenuItem1);
     MenuBar1->Append(Menu1, _("&File"));
     Menu3 = new wxMenu();
-    MenuItem3 = new wxMenuItem(Menu3, idSoundQualityUpgrade, _("Sound Quality Upgrade"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem3 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Sound Quality Upgrade"), wxEmptyString, wxITEM_NORMAL);
     Menu3->Append(MenuItem3);
     MenuBar1->Append(Menu3, _("&Tools"));
     Menu2 = new wxMenu();
@@ -152,7 +152,7 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnOptions);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnStartConvert);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnQuit);
-    Connect(idSoundQualityUpgrade,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnToolDelPoorFiles);
+    Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnToolDelPoorFiles);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&ncmdump_GUIFrame::OnAbout);
     //*)
 
@@ -177,14 +177,14 @@ void ncmdump_GUIFrame::OnQuit(wxCommandEvent& event)
 void ncmdump_GUIFrame::OnAbout(wxCommandEvent& event)
 {
     const wxString aboutinfo =
-        wxString("Author: z4deepfz\n")
-        + "Github Page: https://github.com/z4deepfz\n\n"
-        + "----------------Special thanks to----------------\n"
-        + "ncmdump repo: https://github.com/anonymous5l/ncmdump\n"
-        + "Library Author: anonymous5l\n"
-        + "Github Page: https://github.com/anonymous5l\n\n"
-        + "Build info: " + wxbuildinfo(long_f);
-
+        _("Author: z4deepfz\n")
+        +_("Github Page: https://github.com/z4deepfz\n\n")
+        +_("----------------Special thanks to----------------\n")
+        +_("ncmdump repo: https://github.com/anonymous5l/ncmdump\n")
+        +_("Library Author: anonymous5l\n")
+        +_("Github Page: https://github.com/anonymous5l\n\n")
+        +_("Build info: ")
+        + wxbuildinfo(long_f);
     wxMessageBox(aboutinfo, _("About ncmdump Graphical User Interface"));
 }
 
@@ -213,7 +213,7 @@ void ncmdump_GUIFrame::OnAddFile(wxCommandEvent& event)
     /// function: add file to the item box. the path will be send to ncmdump to convert later
     /// 1. show a file dialog to request a file path
     wxFileDialog cfile( this, wxFileSelectorPromptStr, wxEmptyString, wxEmptyString,
-                        _("*.ncm"), wxFD_OPEN|wxFD_MULTIPLE );
+                        wxT("*.ncm"), wxFD_OPEN|wxFD_MULTIPLE );
 
 
     /// 2. add the path to a container(map, vector, queue, etc...)
