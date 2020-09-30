@@ -65,7 +65,7 @@ class ncmdump_GUIFrame: public wxFrame
 {
     friend class ConvertTaskThread;
     private: /// custom data
-        std::set<std::string> sFile;   /// array to buf the file path
+        std::set<wxString> sFile;   /// array to buf the file path
         void reFillList();
         void setItemColor(const wxString& s, const wxColor& c);
         void ConvertAllNcmFiles();

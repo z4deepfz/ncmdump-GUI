@@ -195,7 +195,7 @@ void ncmdump_GUIFrame::AddItems(const wxArrayString& a)
     }
     for(auto i: a){
         if( isNCMFile(i) ){ /// avoid another files added
-            sFile.insert( static_cast<std::string>(i) );
+            sFile.insert(i);
         }
     }
     reFillList();
@@ -329,7 +329,7 @@ void ncmdump_GUIFrame::ConvertAllNcmFiles()
         gauge->SetValue(0);
         stb->SetStatusText(wxString::Format(" (0/%d) Processing...", tot));
         for(auto i: sFile){
-            if( DumpNcm(i, opath, flagFixMeta) ){
+            if( DumpNcm(static_cast<const std::string>(i), opath, flagFixMeta) ){
                 setItemColor(static_cast<wxString>(i), green);
                 if( flagDelNCM ){
                     if( wxRemoveFile( static_cast<wxString>(i) ) == false ){

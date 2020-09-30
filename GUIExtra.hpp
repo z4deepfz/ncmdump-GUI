@@ -23,7 +23,7 @@ void ncmdump_GUIFrame::reFillList()
     unsigned cnt = 0;
     for(auto i: sFile){
         wxListItem fn, fs, fp;
-        wxFileName f( static_cast<wxString>(i) );
+        wxFileName f(i);
 
         fp.SetColumn(0);
         fp.SetId(cnt++);
@@ -79,6 +79,7 @@ wxString getFileName(const wxString& s)
 
 wxString genProcessText(int finished, int total, const wxString& name)
 {
+    //return wxEmptyString;
     return wxString::Format(" (%d/%d) Processing... [", finished, total) + getFileName(name) + "]";
 }
 
