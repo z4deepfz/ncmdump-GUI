@@ -327,7 +327,6 @@ void ncmdump_GUIFrame::ConvertAllNcmFiles()
         const auto tot = sFile.size();
         auto cnt = 0;
         gauge->SetValue(0);
-        stb->SetStatusText(wxString::Format(" (0/%d) Processing...", tot));
         for(auto i: sFile){
             if( DumpNcm(static_cast<const std::string>(i), opath, flagFixMeta) ){
                 setItemColor(static_cast<wxString>(i), green);
