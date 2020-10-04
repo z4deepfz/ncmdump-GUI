@@ -10,8 +10,8 @@ void addListCtrlCol(wxListCtrl& l)
 {
     const int _a[3] = {1, 2, 0};
     const wxArrayInt a(_a, _a+3);
-    l.InsertColumn(0, _("Path"), wxLIST_FORMAT_LEFT, 350);
-    l.InsertColumn(1, _("File Name"), wxLIST_FORMAT_LEFT, 300);
+    l.InsertColumn(0, _("Full Path"), wxLIST_FORMAT_LEFT, 350);
+    l.InsertColumn(1, _("Music"), wxLIST_FORMAT_LEFT, 300);
     l.InsertColumn(2, _("Size"), wxLIST_FORMAT_LEFT);
     l.SetColumnsOrder(a);
     //wxMessageBox("aaa");
@@ -79,7 +79,6 @@ wxString getFileName(const wxString& s)
 
 wxString genProcessText(int finished, int total, const wxString& name)
 {
-    //return wxEmptyString;
     return wxString::Format(" (%d/%d) Processing... [", finished, total) + getFileName(name) + "]";
 }
 
