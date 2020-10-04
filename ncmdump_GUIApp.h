@@ -11,7 +11,7 @@
 #define NCMDUMP_GUIAPP_H
 
 #include <wx/app.h>
-
+#include <wx/cmdline.h>
 
 class ncmdump_GUIApp : public wxApp
 {

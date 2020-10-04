@@ -75,7 +75,8 @@ class ncmdump_GUIFrame: public wxFrame
         ncmdumpGUI_OptionsDialog *d_option;
 
     public:
-        ncmdump_GUIFrame(wxWindow* parent,wxWindowID id = -1);
+        ncmdump_GUIFrame(wxWindow* parent, wxWindowID id = -1);
+        ncmdump_GUIFrame(wxWindow* parent, const wxArrayString& filename, wxWindowID id=-1);
         virtual ~ncmdump_GUIFrame();
 
         void AddItems(const wxArrayString& a);

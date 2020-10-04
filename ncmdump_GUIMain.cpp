@@ -163,6 +163,15 @@ ncmdump_GUIFrame::ncmdump_GUIFrame(wxWindow* parent,wxWindowID id)
     stb->SetStatusText(_(" Idle"), 0);
 }
 
+ncmdump_GUIFrame::ncmdump_GUIFrame(
+    wxWindow* parent,
+    const wxArrayString& filename,
+    wxWindowID id
+): ncmdump_GUIFrame(parent, id)
+{
+    AddItems(filename);
+}
+
 ncmdump_GUIFrame::~ncmdump_GUIFrame()
 {
     //(*Destroy(ncmdump_GUIFrame)
